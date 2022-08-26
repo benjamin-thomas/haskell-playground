@@ -1,4 +1,4 @@
-module MyLib (
+module ExplorePrelude (
     isBlank,
     isPalindrome,
     repeatStr,

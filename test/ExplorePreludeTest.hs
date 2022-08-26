@@ -1,6 +1,6 @@
 import Control.Exception (evaluate)
 import Data.Char (isSpace)
-import MyLib (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, repeatStr, toMaybePositiveInt)
+import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, repeatStr, toMaybePositiveInt)
 
 import GHC.IO.Handle.Internals (decodeByteBuf)
 import Test.Hspec (anyException, describe, hspec, it, shouldBe, shouldNotBe, shouldThrow)
