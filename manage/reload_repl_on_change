@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "$(date): Will reload the REP on next file change..."
+exec rg --files | entr -p ./manage/utils/reload_repl
