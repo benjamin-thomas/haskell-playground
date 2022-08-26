@@ -22,18 +22,13 @@ main = hspec $ do
                 [1, 2, 3] ++ [4, 5] `shouldBe` [1, 2, 3, 4, 5]
             it "can prepend to a list of numbers" $ do
                 1 : [2, 3, 4, 5] `shouldBe` [1, 2, 3, 4, 5]
+
         describe "Debugging" $ do
             it "uses `show` to inspect common data types" $ do
                 show 42 `shouldBe` "42"
                 show [1, 2] `shouldBe` "[1,2]"
                 show ('a', "b", 3) `shouldBe` "('a',\"b\",3)"
                 show ('a', "b", 3) `shouldBe` [r|('a',"b",3)|]
-        -- debugToStringTest =
-        --     [ Debug.toString 42
-        --     , Debug.toString [1, 2]
-        --     , Debug.toString ('a', "b", 3)
-        --     , Debug.toString True
-        --     ]
 
         describe "Working with strings" $ do
             describe "Test for empty or blank" $ do
@@ -52,8 +47,6 @@ main = hspec $ do
             describe "String manipulation" $ do
                 it "reverses" $
                     reverse "abc" `shouldBe` "cba"
-                -- it "prepares for concat" $
-                --     concat (replicate 3 "!") `shouldBe` "!!!"
                 it "concats" $ do
                     "a" ++ "b" `shouldBe` "ab"
                     "a" ++ "b" ++ "c" `shouldBe` "abc"
@@ -66,6 +59,7 @@ main = hspec $ do
                     isPalindrome "wat" `shouldNotBe` True
                 it "repeats a string" $
                     repeatStr "!" 3 `shouldBe` "!!!"
+
         describe "Conversions" $ do
             it "converts an Int to String" $ do
                 (show 1 :: String) `shouldBe` "1"
