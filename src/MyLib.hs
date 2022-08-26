@@ -1,4 +1,13 @@
-module MyLib (isBlank, isPalindrome, repeatStr, gotIntOption, gotPosIntOption, toMaybePositiveInt) where
+module MyLib (
+    isBlank,
+    isPalindrome,
+    repeatStr,
+    gotIntOption,
+    gotPosIntOption,
+    toMaybePositiveInt,
+    printSound,
+    Animal (..),
+) where
 
 import Data.Char (isSpace)
 
@@ -31,3 +40,13 @@ gotPosIntOption :: Maybe PositiveInt -> String
 gotPosIntOption maybeInt = case maybeInt of
     Just n -> gotIntOption (Just $ getPositiveInt n) ++ "!"
     Nothing -> gotIntOption Nothing ++ "!"
+
+data Animal = Cat | Dog | Fish
+
+printSound :: Animal -> String
+printSound animal =
+    case animal of
+        Cat -> "Meow"
+        Dog -> "Woof"
+        _ ->
+            error "handle Fish later..."

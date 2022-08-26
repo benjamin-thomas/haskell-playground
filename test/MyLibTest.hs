@@ -1,8 +1,7 @@
 import Control.Exception (evaluate)
 import Data.Char (isSpace)
-import MyLib (gotIntOption, gotPosIntOption, isBlank, isPalindrome, repeatStr, toMaybePositiveInt)
+import MyLib (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, repeatStr, toMaybePositiveInt)
 
--- import Data.Maybe (Maybe (..))
 import GHC.IO.Handle.Internals (decodeByteBuf)
 import Test.Hspec (anyException, describe, hspec, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
@@ -81,3 +80,11 @@ main = hspec $ do
                 gotPosIntOption (toMaybePositiveInt 1) `shouldBe` "YES[1]!"
                 gotPosIntOption (toMaybePositiveInt (-1)) `shouldBe` "NO!!"
                 gotPosIntOption Nothing `shouldBe` "NO!!"
+
+        describe "Working with custom types" $ do
+            it "uses pattern match" $
+                printSound Cat `shouldBe` "Meow"
+            it "can use `error` to mark WIP" $
+                -- I should find a way to prevent calling these on production builds...
+                -- This looks equivalent to Debug.todo in Elm
+                evaluate (printSound Fish) `shouldThrow` anyException
