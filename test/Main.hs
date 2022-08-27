@@ -13,6 +13,7 @@ NOTE:
         cabal test --test-option=--format=progress
 -}
 
+import qualified ExceptionHandlingTest
 import qualified ExplorePreludeTest
 import qualified RegexTest
 import Test.Hspec (hspec)
@@ -22,3 +23,4 @@ main = hspec $ do
     -- When working on a new module, use something like: ./manage/reload_repl_on_change Regexes
     ExplorePreludeTest.spec
     RegexTest.spec
+    ExceptionHandlingTest.spec
