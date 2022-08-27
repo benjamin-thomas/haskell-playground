@@ -4,6 +4,7 @@ version:            0.0.0.1
 
 common ghc-options
     ghc-options:      -Wall
+                      -freverse-errors
 
 library
     import:           ghc-options
@@ -34,6 +35,8 @@ test-suite haskell-playground-test
                        , template-haskell
                        , raw-strings-qq
                        , pcre-heavy
+                       , time
+                       , time-lens
 
     default-extensions:  NumericUnderscores
                        , QuasiQuotes
@@ -45,3 +48,4 @@ test-suite haskell-playground-test
                        , RegexTest
                        , ExceptionHandling
                        , ExceptionHandlingTest
+                       , TimeTest

@@ -17,6 +17,7 @@ import qualified ExceptionHandlingTest
 import qualified ExplorePreludeTest
 import qualified RegexTest
 import Test.Hspec (hspec)
+import qualified TimeTest
 
 main :: IO ()
 main = hspec $ do
@@ -24,3 +25,4 @@ main = hspec $ do
     ExplorePreludeTest.spec
     RegexTest.spec
     ExceptionHandlingTest.spec
+    TimeTest.spec

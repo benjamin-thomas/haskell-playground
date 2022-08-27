@@ -23,6 +23,24 @@ spec =
                 [1, 2, 3] ++ [4, 5] `shouldBe` [1, 2, 3, 4, 5]
             it "can prepend to a list of numbers" $ do
                 1 : [2, 3, 4, 5] `shouldBe` [1, 2, 3, 4, 5]
+            it "can map over maybe" $ do
+                {-
+                    This is similar to this Elm code:
+
+                        > Maybe.map ((+) 1) (Just 1)
+                        Just 2 : Maybe number
+                        > Maybe.map ((+) 1) Nothing
+                        Nothing : Maybe number
+
+                        > Just 1 |> Maybe.map ((+) 1)
+                        Just 2 : Maybe number
+                        > Nothing |> Maybe.map ((+) 1)
+                        Nothing : Maybe number
+                        >
+
+                -}
+                fmap (+ 1) (Just 1) `shouldBe` Just 2
+                fmap (+ 1) Nothing `shouldBe` Nothing
 
         describe "Debugging" $ do
             it "uses `show` to inspect common data types" $ do
