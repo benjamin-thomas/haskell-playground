@@ -7,6 +7,7 @@ module ExplorePrelude (
     toMaybePositiveInt,
     printSound,
     Animal (..),
+    qsort,
 ) where
 
 import Data.Char (isSpace)
@@ -50,3 +51,11 @@ printSound animal =
         Dog -> "Woof"
         _ ->
             error "handle Fish later..."
+
+qsort :: Ord a => [a] -> [a]
+qsort [] = []
+qsort (x : xs) =
+    qsort ys ++ [x] ++ qsort zs
+  where
+    ys = [a | a <- xs, a <= x]
+    zs = [a | a <- xs, a > x]

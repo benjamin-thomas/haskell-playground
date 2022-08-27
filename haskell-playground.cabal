@@ -36,3 +36,4 @@ test-suite haskell-playground-test
 
     other-modules:       ExplorePrelude
                        , ExplorePreludeTest
+                       , RegexTest

@@ -2,7 +2,7 @@ module ExplorePreludeTest (spec) where
 
 import Control.Exception (evaluate)
 import Data.Char (isSpace)
-import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, repeatStr, toMaybePositiveInt)
+import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, qsort, repeatStr, toMaybePositiveInt)
 
 import GHC.IO.Handle.Internals (decodeByteBuf)
 import Test.Hspec (Spec, anyException, describe, errorCall, hspec, it, shouldBe, shouldNotBe, shouldThrow)
@@ -12,7 +12,7 @@ import Text.RawString.QQ (r)
 
 spec :: Spec
 spec =
-    describe "Exploration" $ do
+    describe "Standard Prelude" $ do
         describe "Misc" $ do
             it "divides floats" $ do
                 5 / 2 `shouldBe` 2.5
@@ -106,3 +106,10 @@ spec =
                 -- I should find a way to prevent calling these on production builds...
                 -- This looks equivalent to Debug.todo in Elm
                 evaluate (printSound Fish) `shouldThrow` anyException
+        describe "Quick Sort" $ do
+            it "sorts ints" $
+                qsort [5, 3, 4, 2, 1] `shouldBe` [1, 2, 3, 4, 5]
+            it "sorts floats" $
+                qsort [5.5, 3.3, 4.4, 2.2, 1.1, 1.2] `shouldBe` [1.1, 1.2, 2.2, 3.3, 4.4, 5.5]
+            it "sorts other types" $
+                qsort [False, True, False, True] `shouldBe` [False, False, True, True]

@@ -13,5 +13,6 @@ import Test.Hspec (hspec)
 
 main :: IO ()
 main = hspec $ do
-    -- ExplorePrelude.spec
-    RegexTest.spec
+    ExplorePreludeTest.spec
+
+-- RegexTest.spec
