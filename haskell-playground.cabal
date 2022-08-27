@@ -52,3 +52,4 @@ test-suite haskell-playground-test
                        , ExceptionHandlingTest
                        , TimeTest
                        , JsonTest
+                       , Utils

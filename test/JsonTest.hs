@@ -1,13 +1,16 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module JsonTest where
 
-import Data.Aeson (FromJSON, KeyValue ((.=)), ToJSON (toJSON), Value (Null), defaultOptions, eitherDecode, encode, fromJSON, genericToEncoding, object, withObject, (.:))
+import Data.Aeson (FromJSON, KeyValue ((.=)), Options (fieldLabelModifier), ToJSON (toJSON), Value (Null), defaultOptions, eitherDecode, encode, fromJSON, genericToEncoding, object, withObject, (.:))
+import Data.Aeson.TH (deriveJSON)
 import Data.Aeson.Types (FromJSON (parseJSON), Result (..), ToJSON (toEncoding))
 import GHC.Generics (Generic)
 import Test.Hspec (Spec, context, describe, it, shouldBe)
 import Text.RawString.QQ (r)
+import Utils (lowerCaseFirst)
 
 {-
 import Data.ByteString.Builder (stringUtf8, toLazyByteString)
@@ -69,6 +72,24 @@ instance FromJSON User where
 {- ORMOLU_ENABLE -}
 -- END: Provide an explicit encode/decode implementation
 
+-- Prefixing every fields with the type name is necessary to prevent name clashes
+data Pet = Pet
+    { petId :: Int
+    , petOwnerName :: String
+    , petName :: String
+    }
+    deriving (Show, Generic)
+
+{-
+NOTE:
+    ''Pet is Template Haskell syntax and means a "fully qualified name"
+    I'm not sure yet what 'Pet means (locally qualified name I suppose?)
+-}
+$(deriveJSON defaultOptions{fieldLabelModifier = lowerCaseFirst . drop 3} 'Pet)
+
+-- instance ToJSON Pet
+-- instance FromJSON Pet
+
 spec :: Spec
 spec =
     describe "JSON parsing" $ do
@@ -104,3 +125,6 @@ spec =
 
                 eitherDecode [r|{"ident":1,"name":"Benjamin","hobbies":["Programming","Piano"]}|]
                     `shouldBe` (Left "Error in $: key \"id\" not found" :: Either String User)
+            it "should strip the type prefix when using records" $ do
+                let encoded = encode Pet{petId = 1, petOwnerName = "John", petName = "Kat"}
+                encoded `shouldBe` [r|{"id":1,"ownerName":"John","name":"Kat"}|]
