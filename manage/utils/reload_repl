@@ -9,4 +9,8 @@ echo "$(date): reloading the REPL..."
 # This assumes the REPL is started in the first pane
 tmux send-keys -t "$PROJECT_NAME:0" ":!clear" Enter
 tmux send-keys -t "$PROJECT_NAME:0" ":reload" Enter
-tmux send-keys -t "$PROJECT_NAME:0" ':main --format=progress --match ""' Enter
+if [ -z "$1" ]; then
+    tmux send-keys -t "$PROJECT_NAME:0" ":main" Enter
+else
+    tmux send-keys -t "$PROJECT_NAME:0" ":main --match \"$1\"" Enter
+fi
