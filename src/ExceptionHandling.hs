@@ -39,11 +39,3 @@ runAndCatch action =
 catchFire :: a
 catchFire =
     throw ServerOnFireException
-
-failWithServerException :: ServerException -> IO ()
-failWithServerException ex =
-    runAndCatch (throw ex)
-
-failWithMyException :: MyException -> IO ()
-failWithMyException ex =
-    runAndCatch (throw ex)

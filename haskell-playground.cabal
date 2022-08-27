@@ -2,13 +2,18 @@ cabal-version:      2.4
 name:               haskell-playground
 version:            0.0.0.1
 
+common ghc-options
+    ghc-options:      -Wall
+
 library
+    import:           ghc-options
     default-language: Haskell2010
     hs-source-dirs:   src
     build-depends:    base ^>=4.14.3.0
     exposed-modules:  ExplorePrelude
 
 executable haskell-playground
+    import:           ghc-options
     default-language: Haskell2010
     hs-source-dirs:   app
 
@@ -19,7 +24,7 @@ executable haskell-playground
     main-is:          Main.hs
 
 test-suite haskell-playground-test
-    ghc-options:         -Wall
+    import:              ghc-options
     type:                exitcode-stdio-1.0
     default-language:    Haskell2010
     hs-source-dirs:      test, src

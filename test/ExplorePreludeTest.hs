@@ -1,11 +1,11 @@
+{-# OPTIONS_GHC -Wno-type-defaults #-}
+
 module ExplorePreludeTest (spec) where
 
 import Control.Exception (evaluate)
-import Data.Char (isSpace)
 import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, qsort, repeatStr, toMaybePositiveInt)
 
-import GHC.IO.Handle.Internals (decodeByteBuf)
-import Test.Hspec (Spec, anyException, describe, errorCall, hspec, it, shouldBe, shouldNotBe, shouldThrow)
+import Test.Hspec (Spec, anyException, describe, errorCall, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
 
 import Text.RawString.QQ (r)

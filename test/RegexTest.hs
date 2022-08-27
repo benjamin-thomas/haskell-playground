@@ -1,7 +1,7 @@
 module RegexTest (spec) where
 
-import Test.Hspec (Spec, describe, hspec, it, shouldBe)
-import Text.Regex.PCRE.Heavy (Regex, gsub, re, scan, (=~))
+import Test.Hspec (Spec, describe, it, shouldBe)
+import Text.Regex.PCRE.Heavy (gsub, re, scan, (=~))
 
 spec :: Spec
 spec =
