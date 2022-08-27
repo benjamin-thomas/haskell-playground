@@ -1,16 +1,18 @@
+module ExplorePreludeTest (spec) where
+
 import Control.Exception (evaluate)
 import Data.Char (isSpace)
 import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, repeatStr, toMaybePositiveInt)
 
 import GHC.IO.Handle.Internals (decodeByteBuf)
-import Test.Hspec (anyException, describe, hspec, it, shouldBe, shouldNotBe, shouldThrow)
+import Test.Hspec (Spec, anyException, describe, errorCall, hspec, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
 
 import Text.RawString.QQ (r)
 
-main :: IO ()
-main = hspec $ do
-    describe "Standard Prelude" $ do
+spec :: Spec
+spec =
+    describe "Exploration" $ do
         describe "Misc" $ do
             it "divides floats" $ do
                 5 / 2 `shouldBe` 2.5
@@ -28,6 +30,22 @@ main = hspec $ do
                 show [1, 2] `shouldBe` "[1,2]"
                 show ('a', "b", 3) `shouldBe` "('a',\"b\",3)"
                 show ('a', "b", 3) `shouldBe` [r|('a',"b",3)|]
+
+        describe "Working with lists" $ do
+            it "selects the first element of a list (UNSAFE)" $ do
+                head [1, 2, 3] `shouldBe` 1
+                evaluate (head []) `shouldThrow` errorCall "Prelude.head: empty list"
+            it "removes the first element of a list (UNSAFE)" $ do
+                tail [1, 2, 3] `shouldBe` [2, 3]
+                evaluate (tail []) `shouldThrow` errorCall "Prelude.tail: empty list"
+            it "selects the nth element of a list (UNSAFE)" $ do
+                [1, 2, 3] !! 1 `shouldBe` 2
+                [1, 2, 3] !! 2 `shouldBe` 3
+                evaluate ([1] !! 99) `shouldThrow` errorCall "Prelude.!!: index too large"
+            it "selects the first n elements of a list (safe)" $ do
+                take 3 [1, 2, 3, 4, 5] `shouldBe` [1, 2, 3]
+                take 99 [1, 2] `shouldBe` [1, 2]
+                take 99 ([] :: [Int]) `shouldBe` []
 
         describe "Working with strings" $ do
             describe "Test for empty or blank" $ do
