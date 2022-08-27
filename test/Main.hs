@@ -7,8 +7,8 @@ NOTE:
     So I can't name this module `Spec` as per HSpec's documented conventions.
 -}
 
-import qualified ExplorePreludeTest as ExplorePrelude
-import qualified ExplorePreludeTest as RegexTest
+import qualified ExplorePreludeTest
+import qualified RegexTest
 import Test.Hspec (hspec)
 
 main :: IO ()
