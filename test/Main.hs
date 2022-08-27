@@ -15,6 +15,7 @@ NOTE:
 
 import qualified ExceptionHandlingTest
 import qualified ExplorePreludeTest
+import qualified JsonTest
 import qualified RegexTest
 import Test.Hspec (hspec)
 import qualified TimeTest
@@ -26,3 +27,4 @@ main = hspec $ do
     RegexTest.spec
     ExceptionHandlingTest.spec
     TimeTest.spec
+    JsonTest.spec

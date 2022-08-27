@@ -37,6 +37,8 @@ test-suite haskell-playground-test
                        , pcre-heavy
                        , time
                        , time-lens
+                       , aeson
+                       , bytestring
 
     default-extensions:  NumericUnderscores
                        , QuasiQuotes
@@ -49,3 +51,4 @@ test-suite haskell-playground-test
                        , ExceptionHandling
                        , ExceptionHandlingTest
                        , TimeTest
+                       , JsonTest
