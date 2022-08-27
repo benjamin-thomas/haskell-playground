@@ -6,62 +6,25 @@ import Text.Regex.PCRE.Heavy (Regex, gsub, re, scan, (=~))
 spec :: Spec
 spec =
     describe "Regexes" $ do
-        describe "DELETE_ME" $ do
-            it "works" $ do
-                1 + 1 `shouldBe` 3
-
-{-
-
-regex1 :: Regex
-regex1 = [re|^(hell.), (.+)!$|]
-
--- I'm not sure why I have to provide extra type information here...
--- Not necessary inside the REPL!
---
--- Normal usage:
---   "hello, world!" =~ regex1 => True
---
--- Reverse the call order:
---   (\x -> x =~ regex1) "hello, world!"
---      => True
---
---   compare = \x -> (x :: Text) =~ regex1
---
---   compare "hello, world!"
---     => True
-reCompare :: Bool
-reCompare = ("hello" :: String) =~ regex1
-
-reCompare2 :: Bool
-reCompare2 = ("hello" :: [Char]) =~ regex1
-
-{-
-scan regex1 ("hello, world!" :: Text)
-  => [("hello, world!",["hello","world"])]
--}
-extractFromRe :: [(String, [String])]
-extractFromRe = scan regex1 "hello, world!"
-
-{-
-The REPL wants the type hint in reverse order it seems...
-gsub [re|\d+|] "X" ("Remove 123 OK" :: Text)
-    => "Remove X OK"
--}
-substituteFromRe :: String
-substituteFromRe = gsub [re|\d+|] ("X" :: String) "Remove 123 OK"
-
-{-
-The REPL wants the type hint in reverse order it seems...
-gsub [re|\d|] "x" ("Remove 123 OK" :: Text)
-    => "Remove xxx OK"
--}
-substituteFromReNonGreedy :: String
-substituteFromReNonGreedy = gsub [re|\d|] ("x" :: String) "Remove 123 OK"
-
-main :: IO ()
-main = hspec $ do
-    describe "Regex" $ do
-        it "works" $ do
-            1 + 1 `shouldBe` 2
-
- -}
+        describe "^(hell.), (.+)!$" $ do
+            let regex = [re|^(hell.), (.+)!$|]
+            it "matches: \"hello, world!\"" $ do
+                "hello, world!" =~ regex `shouldBe` True
+            it "does not match: \"hello!\"" $
+                "hello!" =~ regex `shouldBe` False
+            it "can be called in reverse order" $
+                -- (\x -> x =~ regex) "hello, world!" `shouldBe` True
+                (=~ regex) "hello, world!" `shouldBe` True
+            it "can be stored in a variable for latter use" $ do
+                let match = (=~ regex)
+                match "hello, world!" `shouldBe` True
+                match "hello!" `shouldBe` False
+            it "can scan a string" $ do
+                scan regex "hello, world!" `shouldBe` [("hello, world!", ["hello", "world"])]
+                scan regex "hello!" `shouldBe` []
+            it "can capture matches" $ do
+                scan [re|a(b).|] "hello abc, and abd" `shouldBe` [("abc", ["b"]), ("abd", ["b"])]
+                scan [re|a(b)[cd]|] "hello abc, and abd" `shouldBe` [("abc", ["b"]), ("abd", ["b"])]
+            it "can replace with gsub" $ do
+                gsub [re|\d+|] "X" "Remove 123 OK" `shouldBe` "Remove X OK"
+                gsub [re|\d|] "x" "Remove 123 OK" `shouldBe` "Remove xxx OK"
