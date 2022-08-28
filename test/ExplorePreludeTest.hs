@@ -8,6 +8,7 @@ import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlan
 import Test.Hspec (Spec, anyException, describe, errorCall, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
 
+import Data.Maybe (catMaybes, mapMaybe, maybeToList)
 import Text.RawString.QQ (r)
 
 spec :: Spec
@@ -38,9 +39,71 @@ spec =
                         Nothing : Maybe number
                         >
 
+                    NOTE:
+
+                        fmap (\x -> x + 1) SAME AS ( +1)
+
                 -}
                 fmap (+ 1) (Just 1) `shouldBe` Just 2
                 fmap (+ 1) Nothing `shouldBe` Nothing
+
+            describe "concatMap" $ do
+                it "works like this" $ do
+                    {-
+                    From the official doc:
+
+                        Map a function over all the elements of a container and concatenate the resulting lists
+
+                    I found this description elsewhere much clearer:
+                        http://zvon.org/other/haskell/Outputprelude/concatMap_f.html
+
+                        Creates a list from a list generating function by application of this function on all elements in a list passed as the second argument
+
+                        Prelude> concatMap (\x -> [x + 1]) [1,2,3]
+                        [2,3,4]
+                        Prelude> map (\x -> x + 1) [1,2,3]
+                        [2,3,4]
+
+                        concatMap (\x -> maybeToList x) [Just 1, Just 2, Just 3]
+                        SAME AS
+                        concatMap maybeToList [Just 1, Just 2, Just 3]
+
+                        concatMap maybeToList [Just 1, Just 2, Just 3]
+                        SAME AS
+                        catMaybes [Just 1, Just 2, Just 3]
+
+                        Prelude Data.Maybe> fmap (+1) $ concatMap (\x -> maybeToList x) [Just 1, Just 2, Just 3]
+                        [2,3,4]
+
+                        Prelude Data.Maybe> concatMap ((fmap (+1)) . maybeToList) [Just 1, Just 2, Nothing]
+                        [2,3]
+
+                        concatMap (maybeToList . fmap (+ 1)) [Just 1, Just 2, Just 3]
+                        SAME AS
+                        mapMaybe (fmap (+ 1)) [Just 1, Just 2, Just 3]
+
+                        fmap (+ (1 :: Int)) $ catMaybes [Just 1, Just 2, Just 3]
+                        SAME AS
+                        (+ (1)) <$> catMaybes [Just 1, Just 2, Just 3]
+                        SAME AS
+                        fmap (+ 1) (catMaybes [Just 1, Just 2, Just 3])
+                    -}
+
+                    concatMap (\x -> [x + 1]) [1, 2, 3] `shouldBe` [2, 3, 4]
+                it "can filter elements with maybeToList" $ do
+                    maybeToList (Just 1) `shouldBe` [1]
+                    maybeToList (Nothing :: Maybe Int) `shouldBe` []
+                    catMaybes [Just 1, Just 2, Just 3] `shouldBe` [1, 2, 3]
+                    mapMaybe (fmap (+ 0)) [Just 1, Just 2, Just 3] `shouldBe` [1, 2, 3]
+                    mapMaybe (fmap (+ 1)) [Just 1, Just 2, Just 3] `shouldBe` [2, 3, 4]
+                    mapMaybe (fmap (+ 1)) [Just 1, Nothing, Just 3] `shouldBe` [2, 4]
+                    catMaybes [Just 1, Just 2, Just 3] `shouldBe` [1, 2, 3]
+                    fmap (+ 1) (catMaybes [Just 1, Just 2, Just 3]) `shouldBe` [2, 3, 4]
+                    ((+ 1) <$> catMaybes [Just 1, Just 2, Just 3]) `shouldBe` [2, 3, 4]
+            describe "<$>" $ do
+                it "is like a \"reversed\" fmap" $ do
+                    fmap (+ 1) [1, 2, 3] `shouldBe` [2, 3, 4]
+                    (+ 1) <$> [1, 2, 3] `shouldBe` [2, 3, 4]
 
         describe "Debugging" $ do
             it "uses `show` to inspect common data types" $ do
