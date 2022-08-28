@@ -15,6 +15,23 @@ spec :: Spec
 spec =
     describe "Standard Prelude" $ do
         describe "Misc" $ do
+            it "can implement factorial easily" $ do
+                let fact n = product [1 .. n]
+                fact 10 `shouldBe` 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10
+            it "can implement an average func" $ do
+                let avg ns = case ns of
+                        [] -> 0
+                        _ -> sum ns `div` length ns
+                avg [1 .. 3] `shouldBe` 2
+                avg [] `shouldBe` 0
+            describe "Another look at function composition" $ do
+                it "applies from the right" $ do
+                    ((+ 2) . (* 3) $ 4) `shouldBe` (4 * 3) + 2
+                    ((* 3) . (+ 2) $ 4) `shouldBe` (4 + 2) * 3
+            it "can make function calls more readable with infix syntax (backticks)" $ do
+                let dblAndAdd x y = (* 2) x + y
+                dblAndAdd 2 1 `shouldBe` 2 * 2 + 1
+                2 `dblAndAdd` 1 `shouldBe` 2 * 2 + 1
             it "divides floats" $ do
                 5 / 2 `shouldBe` 2.5
             it "can sum of list of numbers" $ do
@@ -119,6 +136,10 @@ spec =
             it "removes the first element of a list (UNSAFE)" $ do
                 tail [1, 2, 3] `shouldBe` [2, 3]
                 evaluate (tail []) `shouldThrow` errorCall "Prelude.tail: empty list"
+
+            it "selects the last elements of a list with `drop` (SAFE)" $ do
+                drop 3 [1, 2, 3, 4, 5] `shouldBe` [4, 5]
+                drop 99 [1, 2, 3, 4, 5] `shouldBe` []
             it "selects the nth element of a list (UNSAFE)" $ do
                 [1, 2, 3] !! 1 `shouldBe` 2
                 [1, 2, 3] !! 2 `shouldBe` 3
@@ -127,7 +148,16 @@ spec =
                 take 3 [1, 2, 3, 4, 5] `shouldBe` [1, 2, 3]
                 take 99 [1, 2] `shouldBe` [1, 2]
                 take 99 ([] :: [Int]) `shouldBe` []
-
+            it "can append to a list with `++` anotherList" $ do
+                [1, 2, 3] ++ [4, 5] `shouldBe` [1 .. 5]
+            it "computes the size of a list with `length`" $ do
+                length [1, 2, 3] `shouldBe` 3
+            it "can sum elements of a list ([] = 0)" $ do
+                sum [1 .. 4] `shouldBe` 10 -- 1 + 2 + 3 + 4
+                sum [] `shouldBe` 0
+            it "can multiply elements of a list ([] = 1, UNSAFE??)" $ do
+                product [1 .. 4] `shouldBe` 24 -- 1 * 2 * 3 * 4
+                product [] `shouldBe` 1
         describe "Working with strings" $ do
             describe "Test for empty or blank" $ do
                 it "uses `null` to test emptiness" $ do
