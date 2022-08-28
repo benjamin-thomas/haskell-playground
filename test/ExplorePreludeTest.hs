@@ -8,13 +8,28 @@ import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlan
 import Test.Hspec (Spec, anyException, describe, errorCall, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
 
-import Data.Maybe (catMaybes, mapMaybe, maybeToList)
+import Data.Maybe (catMaybes, fromMaybe, mapMaybe, maybeToList)
 import Text.RawString.QQ (r)
 
 spec :: Spec
 spec =
     describe "Standard Prelude" $ do
         describe "Misc" $ do
+            it "can do interesting stuff with `id`" $ do
+                {- The commented functions generate hlint suggestions -}
+                -- filter (\x -> x) [True, False] `shouldBe` [True]
+                -- filter (\x -> not x) [True, False] `shouldBe` [False]
+                filter id [True, False] `shouldBe` [True]
+                filter not [True, False] `shouldBe` [False]
+                -- id True `shouldBe` True
+                -- not True `shouldBe` False
+                -- id 3 `shouldBe` 3
+                {- Like Elm's Maybe.withDefault! -}
+                fromMaybe 0 Nothing `shouldBe` 0
+                fromMaybe 0 (Just 1) `shouldBe` 1
+            -- let fromMaybe2 default_ = maybe default_ id
+            -- fromMaybe2 0 Nothing `shouldBe` 0
+            -- fromMaybe2 0 (Just 1) `shouldBe` 1
             it "can implement factorial easily" $ do
                 let fact n = product [1 .. n]
                 fact 10 `shouldBe` 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10
