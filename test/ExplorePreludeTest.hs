@@ -27,6 +27,18 @@ spec =
                 {- Like Elm's Maybe.withDefault! -}
                 fromMaybe 0 Nothing `shouldBe` 0
                 fromMaybe 0 (Just 1) `shouldBe` 1
+                {-
+                    The maybe function takes a default value, a function, and a Maybe value.
+                    If the Maybe value is Nothing , the function returns the default value.
+                    Otherwise, it applies the function to the value inside the Just and returns the result.
+
+                    Prelude> maybe (-1) (\x -> x + 1) $ Nothing
+                    -1
+                    Prelude> maybe (-1) (\x -> x + 1) $ Just 1
+                    2
+                -}
+                maybe (-1) (+ 1) Nothing `shouldBe` -1
+                maybe (-1) (+ 1) (Just 1) `shouldBe` 2
             -- let fromMaybe2 default_ = maybe default_ id
             -- fromMaybe2 0 Nothing `shouldBe` 0
             -- fromMaybe2 0 (Just 1) `shouldBe` 1
