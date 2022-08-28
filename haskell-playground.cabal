@@ -5,6 +5,8 @@ version:            0.0.0.1
 common ghc-options
     ghc-options:      -Wall
                       -freverse-errors
+                      -fwrite-ide-info
+                      -hiedir=.hie
 
 library
     import:           ghc-options
