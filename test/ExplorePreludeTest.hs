@@ -208,6 +208,7 @@ spec =
                     concat ["a", "b", "c"] `shouldBe` "abc"
                     replicate 3 "!" `shouldBe` ["!", "!", "!"]
                     concat (replicate 3 "!") `shouldBe` "!!!"
+                    replicate 3 'b' `shouldBe` "bbb" -- better!
                 it "should be a palindrome" $ do
                     isPalindrome "noon" `shouldBe` True
                 it "should not be a palindrome" $ do
