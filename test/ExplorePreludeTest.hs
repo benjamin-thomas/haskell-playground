@@ -15,6 +15,13 @@ spec :: Spec
 spec =
     describe "Standard Prelude" $ do
         describe "Misc" $ do
+            it "learns about fmap and <$>" $ do
+                fmap (+ 1) Nothing `shouldBe` Nothing
+                fmap (+ 1) (Just 1) `shouldBe` Just 2
+                (+ 1) `fmap` Nothing `shouldBe` Nothing
+                (+ 1) <$> Nothing `shouldBe` Nothing
+                (+ 1) `fmap` Just 1 `shouldBe` Just 2
+                (+ 1) <$> Just 1 `shouldBe` Just 2
             it "can do interesting stuff with `id`" $ do
                 {- The commented functions generate hlint suggestions -}
                 -- filter (\x -> x) [True, False] `shouldBe` [True]
