@@ -5,23 +5,30 @@ module ExplorePreludeTest (spec) where
 import Control.Exception (evaluate)
 import ExplorePrelude (Animal (Cat, Fish), gotIntOption, gotPosIntOption, isBlank, isPalindrome, printSound, qsort, repeatStr, toMaybePositiveInt)
 
-import Test.Hspec (Spec, anyException, describe, errorCall, it, shouldBe, shouldNotBe, shouldThrow)
+import Test.Hspec (Example (Arg), Expectation, Spec, SpecWith, anyException, describe, errorCall, it, shouldBe, shouldNotBe, shouldThrow)
 import Text.Read (readMaybe)
 
+import Data.Functor ((<&>))
 import Data.Maybe (catMaybes, fromMaybe, mapMaybe, maybeToList)
 import Text.RawString.QQ (r)
+
+test :: String -> Expectation -> SpecWith (Arg Expectation)
+test = it
 
 spec :: Spec
 spec =
     describe "Standard Prelude" $ do
         describe "Misc" $ do
-            it "learns about fmap and <$>" $ do
+            it "learns about fmap and <$> and <&>" $ do
                 fmap (+ 1) Nothing `shouldBe` Nothing
                 fmap (+ 1) (Just 1) `shouldBe` Just 2
                 (+ 1) `fmap` Nothing `shouldBe` Nothing
                 (+ 1) <$> Nothing `shouldBe` Nothing
                 (+ 1) `fmap` Just 1 `shouldBe` Just 2
                 (+ 1) <$> Just 1 `shouldBe` Just 2
+            test "<&> is the flipped version of <$>" $ do
+                (Just 1 <&> (+ 1)) `shouldBe` (+ 1) <$> Just 1
+                (Just 1 <&> (+ 1) <&> (* 2)) `shouldBe` Just 4 -- 1 |> +2 |> *2
             it "can do interesting stuff with `id`" $ do
                 {- The commented functions generate hlint suggestions -}
                 -- filter (\x -> x) [True, False] `shouldBe` [True]
