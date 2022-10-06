@@ -78,6 +78,14 @@ spec =
             it "can sum of list of numbers" $ do
                 [1 .. 5] `shouldBe` [1, 2, 3, 4, 5]
                 sum [1 .. 5] `shouldBe` 15 -- 1 + 2 + 3 + 4 + 5 = 15
+                -- ===============================================================================
+                -- All impls below do work, but I'm commenting them out here since I don't want to
+                -- silence Hlint warnings globally (code can be simplified).
+                -- ===============================================================================
+                -- let sum' = foldl (\acc curr -> acc + curr) 0
+                -- let sum' = foldl (+) 0
+                -- sum' [1 .. 5] `shouldBe` 15 -- 1 + 2 + 3 + 4 + 5 = 15
+                -- foldl (+) 0 [1 .. 5] `shouldBe` 15
             it "can join lists of numbers" $ do
                 [1, 2, 3] ++ [4, 5] `shouldBe` [1, 2, 3, 4, 5]
             it "can prepend to a list of numbers" $ do
