@@ -86,6 +86,12 @@ spec =
                 -- let sum' = foldl (+) 0
                 -- sum' [1 .. 5] `shouldBe` 15 -- 1 + 2 + 3 + 4 + 5 = 15
                 -- foldl (+) 0 [1 .. 5] `shouldBe` 15
+            it "can sum non empty lists" $ do
+                -- In the use case where an empty list would represent bad data!
+                -- let sum' ne = foldl (\acc curr -> acc + curr) (fst ne) (snd ne)
+                -- I'm ignoring a "space leak" STAN warning for now: https://kodimensional.dev/space-leak
+                let sum' nonEmpty = uncurry (foldl (+)) nonEmpty
+                sum' (1, [2, 3]) `shouldBe` 6
             it "can join lists of numbers" $ do
                 [1, 2, 3] ++ [4, 5] `shouldBe` [1, 2, 3, 4, 5]
             it "can prepend to a list of numbers" $ do
