@@ -7,6 +7,7 @@ To get faster feedback, use this method:
 Step 1: start a testing REPL with `cabal repl haskell-playground-test` in Tmux's **first** pane.
 Step 2: run `./manage/reload_repl_on_change` in a second pane.
 
+NOTE to self: `ghcid` could be a better tool.
 
 ### Comparisons
 
