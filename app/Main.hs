@@ -1,8 +1,8 @@
 module Main where
 
-import qualified ExplorePrelude (someFunc)
+import qualified Tree (hello)
 
 main :: IO ()
 main = do
   putStrLn "Hello, Haskell!"
-  ExplorePrelude.someFunc
+  putStrLn Tree.hello
